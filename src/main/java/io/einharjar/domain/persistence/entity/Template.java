@@ -15,7 +15,9 @@ public class Template extends AuditedEntity {
     @Length(max = 128, min = 8)
     @Column(nullable = false)
     private String text;
+
     private String lang;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "document_id", nullable = false)
     private Document document;

@@ -11,5 +11,4 @@ import javax.persistence.Entity;
 @Data
 public class User extends AuditedEntity {
     private String name;
-
 }
