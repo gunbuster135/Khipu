@@ -8,11 +8,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface DocumentRepository extends CrudRepository<Document, Long>{
-    Document findByName(String name);
-    Document findAllByCreatedDateAfterAndCreatedDateBefore(LocalDateTime after, LocalDateTime before);
-    Document findAll(Sort sort);
+    Optional<Document> findByName(String name);
+    Optional<Document> findAllByCreatedDateAfterAndCreatedDateBefore(LocalDateTime after, LocalDateTime before);
+    Optional<Document> findAll(Sort sort);
     Page<Document> findAll(Pageable pageable);
 }
