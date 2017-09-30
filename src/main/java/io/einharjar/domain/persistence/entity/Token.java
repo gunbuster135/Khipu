@@ -10,11 +10,12 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@Table(name = "Token")
 public class Token extends AuditedEntity {
     @Column(nullable = false)
     private String value;
     private Long validUntil;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
 }

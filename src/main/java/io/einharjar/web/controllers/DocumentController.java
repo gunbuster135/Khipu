@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/document")
+@RestController()
 public class DocumentController {
     final DocumentService documentService;
 
@@ -19,7 +19,7 @@ public class DocumentController {
         this.documentService = documentService;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, value = "/document")
     public ResponseEntity<Document> getDocument(){
         Document document = documentService.createDocument();
         return new ResponseEntity<>(document, HttpStatus.OK);

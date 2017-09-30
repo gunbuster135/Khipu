@@ -1,6 +1,5 @@
 package io.einharjar.domain.persistence.entity;
 
-import io.einharjar.domain.model.request.CreateUserRequest;
 import io.einharjar.domain.persistence.entity.common.AuditedEntity;
 import io.einharjar.utils.ObjectHelper;
 import lombok.AccessLevel;
@@ -18,7 +17,9 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class User extends AuditedEntity {
+
+@Table(name = "Account")
+public class Account extends AuditedEntity {
     @Length(min = 4)
     private String userName;
     @NotNull
@@ -29,11 +30,12 @@ public class User extends AuditedEntity {
     @Email
     @Column(unique = true)
     private String email;
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    private Long timestampRecentAuthentication;
+    @OneToMany(mappedBy="account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
     @Setter(value = AccessLevel.NONE)
     private Set<Token> tokens = new HashSet<>();
 
-
+    private Long tokenValidity;
 
     public void addToken(Token token){
         ObjectHelper.checkNull(token, "Token cannot be null!");

@@ -11,6 +11,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@Table(name = "Template")
 public class Template extends AuditedEntity {
     @Length(max = 128, min = 8)
     @Column(nullable = false)
