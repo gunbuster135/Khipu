@@ -19,7 +19,7 @@ import java.util.UUID;
 @Accessors(fluent = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Meta {
+public class Info {
     @JsonProperty("status")
     private Status status;
     @JsonProperty("message")

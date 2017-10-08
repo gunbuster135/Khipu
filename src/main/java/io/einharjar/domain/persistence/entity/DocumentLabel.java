@@ -9,7 +9,15 @@ import javax.validation.constraints.NotNull;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name="DocumentLabel")
+@Table(
+        name="DocumentLabel",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "document_id_label_id_constraint",
+                        columnNames = {"document_id, label_id"}  //Do not allow duplicate labels for a document
+                )
+        }
+)
 @Data
 public class DocumentLabel extends AuditedEntity{
     @ManyToOne(fetch= FetchType.EAGER)
@@ -18,7 +26,7 @@ public class DocumentLabel extends AuditedEntity{
     private Document document;
 
     @OneToOne
-    @JoinColumn(name="tag_id")
+    @JoinColumn(name="label_id")
     @NotNull
     private Label label;
 }

@@ -11,11 +11,19 @@ import java.util.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Table(name = "Document")
+@Table(
+        name = "Document",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "document_id_name_constraint",
+                        columnNames = {"domain_id, name"}  //Documents belonging to same domain should have unique names
+                )
+        }
+)
 @Entity
 public class Document extends AuditedEntity {
     @Length(max = 128, min = 8)
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, name = "name")
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)

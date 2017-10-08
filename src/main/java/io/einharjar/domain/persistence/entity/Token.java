@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Token")
 public class Token extends AuditedEntity {
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String value;
     private Long validUntil;
     @ManyToOne(fetch = FetchType.LAZY)

@@ -4,11 +4,12 @@ package io.einharjar.domain.model.response;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.einharjar.domain.model.response.Meta;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
@@ -21,7 +22,15 @@ import java.util.Optional;
 public class Result<T> {
     @JsonProperty("data")
     private Optional<T> result;
-    @JsonProperty("meta")
-    private Meta meta = new Meta();
+    @JsonProperty("info")
+    private Info info = new Info();
 
+
+
+    public ResponseEntity<Result<T>> getResponseEntity(){
+        if(info == null || info.status() == null){
+            return new ResponseEntity<>(this, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(this, info.status().getHttpStatus());
+    }
 }

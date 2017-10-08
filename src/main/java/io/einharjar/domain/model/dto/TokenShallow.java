@@ -12,10 +12,11 @@ public class TokenShallow {
     private Long validUntil;
 
 
-
-    public void from(@NonNull Token t){
-        this.value = t.getValue();
-        this.validUntil = t.getValidUntil();
-        this.created = t.getCreatedDate();
+    public static TokenShallow from(@NonNull Token t){
+        TokenShallow tokenShallow = new TokenShallow();
+        tokenShallow.value = t.getValue();
+        tokenShallow.validUntil = t.getValidUntil();
+        tokenShallow.created = t.getCreatedDate();
+        return tokenShallow;
     }
 }

@@ -17,7 +17,7 @@ import static io.einharjar.utils.ObjectHelper.*;
 @Table(name = "Domain")
 public class Domain extends AuditedEntity {
     @Length(max = 128, min = 4)
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "domain", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -42,5 +42,10 @@ public class Domain extends AuditedEntity {
             accountGroup.addUser(account);
             permissions.put(permission, accountGroup);
         }
+    }
+
+    public boolean checkAccountPermission(@NonNull Account account, @NonNull Permission permission) {
+        AccountGroup accountGroup = permissions.get(permission);
+        return accountGroup != null && accountGroup.getAccounts().contains(account);
     }
 }

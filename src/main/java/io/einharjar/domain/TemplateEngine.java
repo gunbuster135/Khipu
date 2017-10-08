@@ -6,5 +6,4 @@ package io.einharjar.domain;
 public enum TemplateEngine {
     Jtwig,
     Velocity
-
 }

@@ -31,7 +31,6 @@ public class AccountController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, value = "/account")
     public @ResponseBody ResponseEntity<Result<AccountShallow>> createAccount(@Valid @RequestBody CreateAccountRequest createAccountRequest) {
-        Result<AccountShallow> userShallowResult = accountService.createAccount(createAccountRequest);
-        return new ResponseEntity<>(userShallowResult, userShallowResult.meta().status().getHttpStatus());
+        return accountService.createAccount(createAccountRequest).getResponseEntity();
     }
 }

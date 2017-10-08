@@ -1,5 +1,6 @@
 package io.einharjar.services;
 
+import io.einharjar.domain.model.response.Info;
 import io.einharjar.domain.model.response.Result;
 import io.einharjar.domain.model.dto.AccountShallow;
 import io.einharjar.domain.model.request.CreateAccountRequest;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static io.einharjar.domain.model.response.Meta.*;
+import static io.einharjar.domain.model.response.Info.*;
 
 @Service
 public class AccountService {
@@ -38,13 +39,13 @@ public class AccountService {
         Result<AccountShallow> result = new Result<>();
         try {
             result.result(Optional.of(AccountShallow.from(accountRepository.save(account))))
-                  .meta().message("Succesfully created user!")
+                  .info().message("Succesfully created user!")
                   .status(Status.SUCCESFUL);
             log.info("Created following account {}", account);
             return result;
         } catch (DataIntegrityViolationException dve) {
             log.info("Failed to create account {} because email already exists", account);
-            result.meta()
+            result.info()
                   .message("Email already exists")
                   .status(Status.FAILED);
             return result;
@@ -53,22 +54,12 @@ public class AccountService {
 
     public Result<AccountShallow> getAccountInfo(String token) {
         Optional<Account> userOptional = accountRepository.findAccountByTokens_Value(token);
-        Optional<AccountShallow> userShallowOptional = userOptional.map(user -> Optional.of(AccountShallow.from(user)))
-                                                                   .orElse(Optional.empty());
-        log.info("Retrieved following account {} with the following token {} ", userOptional.orElse(null), token);
-
-        return userShallowOptional.map(accountShallow -> {
-            Result<AccountShallow> res = new Result<>();
-            res.result(Optional.of(accountShallow))
-               .meta().message("Successfully created account!")
-               .status(Status.SUCCESFUL);
-            return res;
-        }).orElseGet(() -> {
-            Result<AccountShallow> res = new Result<>();
-            res.result(Optional.empty())
-               .meta().message("No account found with that token")
-               .status(Status.FAILED);
-            return res;
-        });
+        log.info("Retrieved following account {} with the following token {} ", userOptional.get(), token);
+        return userOptional.map(account -> new Result<AccountShallow>().result(Optional.of(AccountShallow.from(account)))
+                                                                       .info(new Info().message("Successfully created account!")
+                                                                                       .status(Status.SUCCESFUL)))
+                           .orElseGet(() -> new Result<AccountShallow>().result(Optional.empty())
+                                                                        .info(new Info().message("No account found with that token")
+                                                                                        .status(Status.FAILED)));
     }
 }

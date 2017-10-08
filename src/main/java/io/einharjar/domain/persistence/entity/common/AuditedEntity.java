@@ -20,11 +20,11 @@ public abstract class AuditedEntity extends BaseEntity{
     @Column(name = "created_date", updatable = false)
     @CreatedDate
     @Setter(value = AccessLevel.NONE)
-    private long createdDate;
+    private Long createdDate;
     @Column(name = "modified_date")
     @LastModifiedDate
     @Setter(value = AccessLevel.NONE)
-    private long modifiedDate;
+    private Long modifiedDate;
     @Version
     @Setter(value = AccessLevel.NONE)
     private Long version;
